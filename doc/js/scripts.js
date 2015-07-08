@@ -1,5 +1,54 @@
 $(function() {
+	function callback(){
+		console.log("here");
+	}
 	
+	$('#demo-custom').tooltipster({
+		//'hideOnClick':true
+	});
+
+	
+
+	$("#demo-custom").on('click',function(){		
+		$(this).toggleClass("active");
+		if($(this).is(".active")){
+			$(this).tooltipster('content', 'Exit');
+		}else{
+			$(this).tooltipster('content', 'click me');
+		}
+	});
+
+	$('#demo-custom2').tooltipster({
+		'hideOnClick':true
+	});
+
+	$("#demo-custom2").on('click',function(){		
+		$(this).toggleClass("active");
+		if($(this).is(".active")){
+			$(this).tooltipster('contentMe', 'Exit');
+		}else{
+			$(this).tooltipster('contentMe', 'click me');
+		}
+	});
+
+	//-----
+	$('#demo-custom3').tooltipster();
+
+	$("#demo-custom3").on('click',function(){	
+		console.log(this);	
+		$(this).toggleClass("active");
+		if($(this).is(".active")){
+			$(this).tooltipster({
+				content:'Exit',
+				multiple: true,				
+				position: 'left'
+			});
+		}else{
+			$(this).tooltipster('content', 'click me');
+		}
+	});
+
+	//-----
 	$('.tooltip').not('#welcome .tooltip').tooltipster({
 		offsetY: 2,
 	});
@@ -53,7 +102,8 @@ $(function() {
 	});
 	$('#demo-events').tooltipster({
 		trigger: 'click'
-	});
+	});	
+	
 	$(window).keypress(function() {
 		$('#demo-events').tooltipster('hide');
 	});

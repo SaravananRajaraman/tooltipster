@@ -10,7 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 ;(function ($, window, document) {
-
+	console.log("here load");
 	var pluginName = "tooltipster",
 		defaults = {
 			animation: 'fade',
@@ -61,7 +61,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		};
 	
 	function Plugin(element, options) {
-		
+		console.log(element, options);
 		// list of instance variables
 		
 		this.bodyOverflowX;
@@ -540,6 +540,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			
 			var self = this,
 				$d = this.$tooltip.find('.tooltipster-content');
+				console.log($d);
+			
+			if (typeof self.Content === 'string' && !self.options.contentAsHTML) {
+				$d.text(self.Content);
+			}
+			else {
+				$d
+					.empty()
+					.append(self.Content);
+			}
+		},
+		_content_insert2: function(element) {
+			
+			var self = this,
+				$d = element
+				console.log($d);
 			
 			if (typeof self.Content === 'string' && !self.options.contentAsHTML) {
 				$d.text(self.Content);
@@ -620,7 +636,35 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				self.hide();
 			}
 		},
-		
+		_updateMe: function(content) {
+			
+			var self = this;
+			
+			// change the content
+			self._content_set(content);
+			
+			if (self.Content !== null) {
+				
+				// update the tooltip if it is open
+				if (self.Status !== 'hidden') {
+					
+					var element = this.$tooltip.find('.tooltipster-content');
+					setTimeout(function() {
+						// reset the content in the tooltip
+						//self._content_insert();
+						self._content_insert2(element);						
+					},1000);
+					
+					// reposition and resize the tooltip
+					self.reposition();
+					
+					// if we want to play a little animation showing the content changed					
+				}
+			}
+			else {
+				self.hide();
+			}
+		},
 		_repositionInfo: function($el) {
 			return {
 				dimension: {
@@ -636,7 +680,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		},
 		
 		hide: function(callback) {
-			
+			console.log(callback);
 			var self = this;
 			
 			// save the method custom callback and cancel any show method custom callbacks
@@ -719,6 +763,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			return self;
 		},
 		
+		hidePrev: function(callback) {	
+			debugger;		
+			console.log("here",callback);
+			return this;
+		},
 		// the public show() method is actually an alias for the private showNow() method
 		show: function(callback) {
 			this._showNow(callback);
@@ -740,7 +789,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				return this;
 			}
 		},
-		
+		contentMe: function(c) {
+			// getter method
+			if(typeof c === 'undefined'){
+				return this.Content;
+			}
+			// setter method
+			else {
+				this._updateMe(c);
+				return this;
+			}
+		},
 		reposition: function() {
 			
 			var self = this;

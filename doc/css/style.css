@@ -403,6 +403,19 @@ Demos
 	cursor: pointer;
 }
 
+#demos .custom {
+	background: #fff !important;
+	color: #5d6365 !important;
+	border: 3px solid #5d6365 !important;
+	cursor: pointer;
+}
+
+#demos span.active {
+	background: #5d6365 !important;
+	color: #fff !important;
+	border: 3px solid #fff !important;
+	cursor: pointer;
+}
 
 /* 
 -------------------------------------
